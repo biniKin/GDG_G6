@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:task10/auth_service.dart';
 import 'package:task10/presentation/home/homePage.dart';
+import 'package:task10/presentation/sign-up/sign_up.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -14,6 +15,7 @@ class _HomeState extends State<SignInPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final AuthService auth = AuthService();
+  bool isObscure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -103,9 +105,18 @@ class _HomeState extends State<SignInPage> {
               ),
               TextField(
                 controller: passwordController,
-                obscureText: true,
+                obscureText: isObscure,
                 decoration: InputDecoration(
-                  suffixIcon: Icon(Icons.remove_red_eye),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isObscure = !isObscure;
+                      });
+                    },
+                    icon: isObscure
+                        ? Icon(Icons.visibility)
+                        : Icon(Icons.visibility_off),
+                  ),
                   hintText: "Enter your password",
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -191,7 +202,19 @@ class _HomeState extends State<SignInPage> {
                   ),
                 ],
               ),
-              Text("Don’t have an account? Sign Up")
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Don't have an account?"),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => SignUpPage()));
+                    },
+                    child: Text(" Sign In"),
+                  ),
+                ],
+              )
             ],
           ),
         ),

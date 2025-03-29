@@ -15,6 +15,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool isObscure = true;
 
   final AuthService auth = AuthService();
 
@@ -150,9 +151,18 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               TextField(
                 controller: passwordController,
-                obscureText: true,
+                obscureText: isObscure,
                 decoration: InputDecoration(
-                  suffixIcon: Icon(Icons.remove_red_eye),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isObscure = !isObscure;
+                      });
+                    },
+                    icon: isObscure
+                        ? Icon(Icons.visibility)
+                        : Icon(Icons.visibility_off_sharp),
+                  ),
                   hintText: "Enter your password",
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
